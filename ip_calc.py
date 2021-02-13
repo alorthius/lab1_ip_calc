@@ -7,9 +7,16 @@ def check_users_input(raw_address: str) -> str:
     """
     Check user's input. If it is not a string, return None.
     If it does not contain mask prefix, return 'Missing prefix'.
+
+    >>> check_users_input(155)
+
+    >>> check_users_input(['230', '248', '10', '10'])
+
+    >>> check_users_input('230.248.10.10')
+    'Missing prefix'
     """
     if not isinstance(raw_address, str):
-        return 'Error'
+        return None
     elif '/' not in raw_address:
         return 'Missing prefix'
 
@@ -18,6 +25,11 @@ def get_ip_from_raw_address(raw_address: str) -> str:
     """
     Return ip-address.
     Return None, if the argument is not a string.
+
+    >>> get_ip_from_raw_address('91.124.230.205/30')
+    '91.124.230.205'
+    >>> get_ip_from_raw_address(['91', '123', '130', '205'])
+
     """
     if not isinstance(raw_address, str):
         return None
@@ -29,6 +41,11 @@ def get_binary_ip(ip_address: str) -> str:
     """
     Return binary ip address.
     Return None, if the argument is not a string.
+
+    >>> get_binary_ip('91.124.230.205')
+    '01011011.01111100.11100110.11001101'
+    >>> get_binary_ip(['91', '124', '230', '205'])
+
     """
     if not isinstance(ip_address, str):
         return None
@@ -50,6 +67,11 @@ def get_mask_number(raw_address: str) -> int:
     """
     Return mask nu,ber as an integer.
     Return None, if the argument is not a string.
+
+    >>> get_mask_number('91.124.230.205/30')
+    30
+    >>> get_mask_number(['91', '124', '230', '205'])
+
     """
     if not isinstance(raw_address, str):
         return None
@@ -61,6 +83,11 @@ def get_binary_mask_from_raw_address(raw_address: str) -> str:
     """
     Return binart mask.
     Return None, if the argument is not a string.
+
+    >>> get_binary_mask_from_raw_address('91.124.230.205/30')
+    '11111111.11111111.11111111.11111100'
+    >>> get_binary_mask_from_raw_address(['91', '124', '230', '205'])
+
     """
     if not isinstance(raw_address, str):
         return None
@@ -76,6 +103,11 @@ def convert_binary_to_numbers(binary_row: str) -> str:
     Convert ip or network addresses or mask from binary
     to the regular one and return in as a string.
     Return None, if the argument is not a string.
+
+    >>> convert_binary_to_numbers('01011011.01111100.11100110.11001101')
+    '91.124.230.205'
+    >>> convert_binary_to_numbers(['01011011', '01111100', '11100110', '11001101'])
+
     """
     if not isinstance(binary_row, str):
         return None
@@ -87,6 +119,11 @@ def get_network_address_from_raw_address(raw_address: str) -> str:
     """
     Get and return network address.
     Return None, if the argument is not a string.
+
+    >>> get_network_address_from_raw_address('91.124.230.205/30')
+    '91.124.230.204'
+    >>> get_network_address_from_raw_address(['91', '124', '230', '205'])
+
     """
     if not isinstance(raw_address, str):
         return None
@@ -112,8 +149,19 @@ def get_inverted_mask(mask_number: int) -> str:
     Inverted mask is a regular mask, where all '0'
     are changed to the '1' and vice versa.
     Return None, if the argument is not an integer.
+
+    >>> get_inverted_mask(30)
+    '00000000.00000000.00000000.00000011'
+    >>> get_inverted_mask(0)
+    '11111111.11111111.11111111.11111111'
+    >>> get_inverted_mask(32)
+    '00000000.00000000.00000000.00000000'
+    >>> get_inverted_mask(-6)
+
+    >>> get_inverted_mask('11111111.11111111.11111111.11111100')
+
     """
-    if not isinstance(mask_number, int):
+    if not isinstance(mask_number, int) or mask_number < 0:
         return None
 
     empty_mask = '11111111.11111111.11111111.11111111'
@@ -124,6 +172,11 @@ def get_broadcast_address_from_raw_address(raw_address: str) -> str:
     """
     Get and return broadcast address.
     Return None, if the argument is not a string.
+
+    >>> get_broadcast_address_from_raw_address('91.124.230.205/30')
+    '91.124.230.207'
+    >>> get_broadcast_address_from_raw_address(['91', '124', '230', '205'])
+
     """
     if not isinstance(raw_address, str):
         return None
@@ -146,6 +199,11 @@ def get_first_usable_ip_address_from_raw_address(raw_address: str) -> str:
     """
     Get and return first usable ip address.
     Return None, if the argument is not a string.
+
+    >>> get_first_usable_ip_address_from_raw_address('91.124.230.205/30')
+    '91.124.230.205'
+    >>> get_first_usable_ip_address_from_raw_address(['91', '124', '230', '205'])
+
     """
     if not isinstance(raw_address, str):
         return None
@@ -162,6 +220,11 @@ def get_penultimate_usable_ip_address_from_raw_address(raw_address: str) -> str:
     """
     Get and return penultimate usable ip address.
     Return None, if the argument is not a string.
+
+    >>> get_penultimate_usable_ip_address_from_raw_address('91.124.230.205/30')
+    '91.124.230.205'
+    >>> get_penultimate_usable_ip_address_from_raw_address(['91', '124', '230', '205'])
+
     """
     if not isinstance(raw_address, str):
         return None
@@ -174,6 +237,13 @@ def get_number_of_usable_hosts_from_raw_address(raw_address: str) -> int:
     """
     Evaluate number of usable hosts and return it as an integer.
     Return None, if the argument is not a string.
+
+    >>> get_number_of_usable_hosts_from_raw_address('91.124.230.205/30')
+    2
+    >>> get_number_of_usable_hosts_from_raw_address('91.124.230.205/0')
+    4294967294
+    >>> get_number_of_usable_hosts_from_raw_address(['91', '124', '230', '205'])
+
     """
     if not isinstance(raw_address, str):
         return None
@@ -187,6 +257,13 @@ def get_ip_class_from_raw_address(raw_address: str) -> str:
     Get and return ip class as a string.
     There are 5 classes: 'A', 'B', 'C', 'D', 'E'.
     Return None, if the argument is not a string.
+
+    >>> get_ip_class_from_raw_address('91.124.230.205/30')
+    'A'
+    >>> get_ip_class_from_raw_address(['91', '124', '230', '205'])
+
+    >>> get_ip_class_from_raw_address('-23.124.230.205/30')
+
     """
     if not isinstance(raw_address, str):
         return None
@@ -194,7 +271,7 @@ def get_ip_class_from_raw_address(raw_address: str) -> str:
     ip_address = get_ip_from_raw_address(raw_address)
     first_octet = int(ip_address[:ip_address.find('.')])
 
-    if first_octet <= 127:
+    if 0 < first_octet <= 127:
         return 'A'
     elif 128 <= first_octet <= 191:
         return 'B'
@@ -204,6 +281,8 @@ def get_ip_class_from_raw_address(raw_address: str) -> str:
         return 'D'
     elif 240 <= first_octet <= 255:
         return 'E'
+    elif first_octet <= 0:
+        return None
 
 
 def check_private_ip_address_from_raw_address(raw_address: str) -> bool:
@@ -211,6 +290,13 @@ def check_private_ip_address_from_raw_address(raw_address: str) -> bool:
     Check whether an ip address is a private or not.
     Return True if it is a private and False if not.
     Return None, if the argument is not a string.
+
+    >>> check_private_ip_address_from_raw_address('91.124.230.205/30')
+    False
+    >>> check_private_ip_address_from_raw_address('172.27.230.205/30')
+    True
+    >>> check_private_ip_address_from_raw_address(['91', '124', '230', '205'])
+
     """
     if not isinstance(raw_address, str):
         return None
@@ -221,10 +307,10 @@ def check_private_ip_address_from_raw_address(raw_address: str) -> bool:
     if first_octet == 10:
         return True
     elif first_octet == 172:
-        if 16 <= int(ip_address[4: 6]) <= 31:
+        if 16 <= int(ip_address[4 : 6]) <= 31:
             return True
     elif first_octet == 192:
-        if int(ip_address[4: 7]) == 168:
+        if int(ip_address[4 : 7]) == 168:
             return True
 
     return False
