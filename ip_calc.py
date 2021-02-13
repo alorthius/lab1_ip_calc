@@ -7,6 +7,8 @@ def check_users_input(raw_address: str) -> str:
     """
     Check user's input. If it is not a string, return None.
     If it does not contain mask prefix, return 'Missing prefix'.
+    If ip is not correct, return 'Error'.
+    If all rules are satisfied, return True.
 
     >>> check_users_input(155)
 
@@ -14,11 +16,34 @@ def check_users_input(raw_address: str) -> str:
 
     >>> check_users_input('230.248.10.10')
     'Missing prefix'
+    >>> check_users_input('366.248.10.10/20')
+    'Error'
+    >>> check_users_input('230.248.10.10/77')
+    'Error'
+    >>> check_users_input('366.248/20')
+    'Error'
+    >>> check_users_input('230.248.10.10/20')
+    True
     """
     if not isinstance(raw_address, str):
         return None
+
     elif '/' not in raw_address:
         return 'Missing prefix'
+
+    mask = int(raw_address[raw_address.find('/') + 1:])
+    if mask < 0 or mask > 32:
+        return 'Error'
+
+    new_address = raw_address[:raw_address.find('/')].split('.')
+    if len(new_address) != 4:
+        return 'Error'
+
+    for number in new_address:
+        if int(number) < 0 or int(number) > 255:
+            return 'Error'
+
+    return True
 
 
 def get_ip_from_raw_address(raw_address: str) -> str:
