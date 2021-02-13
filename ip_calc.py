@@ -1,5 +1,5 @@
 """
-GitHub link: https://github.com/alorthius/lab2_ip_calc
+GitHub link: https://github.com/alorthius/lab1_ip_calc
 """
 
 
