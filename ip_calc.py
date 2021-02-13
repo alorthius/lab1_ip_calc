@@ -128,7 +128,11 @@ def get_first_usable_ip_address_from_raw_address(raw_address: str) -> str:
         return None
 
     network_address = get_network_address_from_raw_address(raw_address)
-    return network_address[:-3] + str(int(network_address[-3:]) + 1)
+
+    try:
+        return network_address[:-3] + str(int(network_address[-3:]) + 1)
+    except ValueError:
+        return network_address[:-1] + str(int(network_address[-1]) + 1)
 
 
 def get_penultimate_usable_ip_address_from_raw_address(raw_address: str) -> str:
